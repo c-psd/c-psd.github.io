@@ -226,8 +226,88 @@
       padding: clamp(3rem, 10vh, 8rem) 0;
     }
 
-    .hero {
+    /* Right rail: sticky at-a-glance card */
+    .body-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 1.6rem clamp(2rem, 4vw, 4rem);
+      align-items: start;
+      margin-top: clamp(2rem, 5vh, 4rem);
+    }
+    .hero-lead {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .hero-body {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .hero-body > .description:first-child {
+      margin-top: 0;
+    }
+    .rail {
+      position: sticky;
+      top: 1.5rem;
+      grid-column: 2;
+      grid-row: 2 / span 2;
+    }
+    .content {
+      grid-column: 1;
+      grid-row: 3;
+      min-width: 0;
+    }
+
+    .glance {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.4rem;
+      background: rgba(11, 7, 8, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+      position: relative;
+    }
+    .glance::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+    .glance-label {
       display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+    .glance-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.7rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .glance-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .glance-val {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--fg);
+    }
+    .glance-btn {
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: center;
     }
 
     .eyebrow {
@@ -364,6 +444,32 @@
       letter-spacing: 0.1em;
       color: var(--muted);
       text-transform: uppercase;
+    }
+
+    @media (max-width: 1100px) {
+      .body-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+      }
+      .hero-lead,
+      .hero-body,
+      .rail,
+      .content {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      .rail {
+        position: static;
+      }
+      .glance-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+      }
+      .glance {
+        max-width: 640px;
+      }
     }
 
     @media (max-width: 900px) {
@@ -691,8 +797,8 @@
     </header>
 
     <main>
-      <div class="hero">
-        <div class="hero-copy">
+      <div class="body-grid">
+        <div class="hero-lead">
           <span class="eyebrow">Conference · Call for talks</span>
           <h1>Copenhagen <span class="accent">Process Science</span> Days</h1>
           <p class="subtitle">
@@ -700,7 +806,9 @@
           </p>
 
           <div class="divider"></div>
+        </div>
 
+        <div class="hero-body">
           <p class="description">
             C-PSD is a community-building initiative that brings together researchers and groups working on Process Science in the greater Copenhagen area. The goal is to create opportunities to learn about ongoing research, exchange ideas, identify common challenges, and establish collaborations across research groups and institutions. Participants from academia, industry, and other institutions are all welcome.
           </p>
@@ -713,112 +821,133 @@
             <a class="btn ghost" href="#">Register →</a>
           </div>
         </div>
+
+        <aside class="rail" aria-label="At a glance">
+          <div class="glance">
+            <span class="glance-label">At a glance</span>
+            <div class="glance-row">
+              <span class="glance-key">Date</span>
+              <span class="glance-val">29 January 2027</span>
+            </div>
+            <div class="glance-row">
+              <span class="glance-key">Venue</span>
+              <span class="glance-val">DTU, Kgs. Lyngby</span>
+            </div>
+            <div class="glance-row">
+              <span class="glance-key">Proposal deadline</span>
+              <span class="glance-val">18 January 2027</span>
+            </div>
+            <a class="btn primary glance-btn" href="#">Register now →</a>
+          </div>
+        </aside>
+
+        <div class="content">
+          <section class="about" id="about">
+            <h2>About</h2>
+            <div class="about-body">
+              <p>
+                C-PSD 2027 will be the first edition of C-PSD and will take place at DTU on the 29th of January 2027. The event will be a full day of scientific presentations and discussions.
+              </p>
+              <p>
+                In addition to sharing research results and ongoing work, participants will have the opportunity to discuss common research interests and explore potential joint activities, such as project proposal preparation, research activities, and scientific events.
+              </p>
+            </div>
+          </section>
+
+          <section class="program" id="program">
+            <div class="program-head">
+              <h2>Program</h2>
+              <span class="program-day">Day 1 · 29 Jan 2027</span>
+            </div>
+
+            <ol class="schedule">
+              <li class="item"><span class="time">8:45</span><span class="detail">Arrival, Coffee, Registration</span></li>
+              <li class="item"><span class="time">9:15</span><span class="detail">Welcome</span></li>
+              <li class="item topic"><span class="time">9:30</span><span class="detail">Topic 1</span></li>
+              <li class="item break"><span class="time">10:30</span><span class="detail">Coffee Break</span></li>
+              <li class="item topic"><span class="time">10:45</span><span class="detail">Topic 2</span></li>
+              <li class="item break"><span class="time">11:45</span><span class="detail">Coffee Break</span></li>
+              <li class="item topic"><span class="time">12:00</span><span class="detail">Topic 3</span></li>
+              <li class="item"><span class="time">13:00</span><span class="detail">Lunch</span></li>
+            </ol>
+          </section>
+
+          <section class="call" id="call-for-contributions">
+            <h2>Call for Talks</h2>
+
+            <div class="call-dates">
+              <div class="info-card">
+                <span class="info-label">Talk proposal deadline</span>
+                <span class="info-value">18 January 2027</span>
+              </div>
+              <div class="info-card">
+                <span class="info-label">Notification</span>
+                <span class="info-value">22 January 2027</span>
+              </div>
+            </div>
+
+            <div class="call-intro">
+              <p>
+                We invite the submission of abstracts for 20-minute talks on all topics related to process science, including but not limited to:
+              </p>
+              <ul class="topics">
+                <li>Recent research results</li>
+                <li>Work in progress and preliminary findings</li>
+                <li>Newly funded research projects</li>
+                <li>Research proposals seeking collaborators or partners</li>
+                <li>Open problems, emerging challenges, and promising research directions</li>
+              </ul>
+              <p>
+                We particularly encourage PhD students and early-career researchers to contribute, including presentations of work in progress and recently accepted papers. The goal is to foster discussion and collaboration rather than to present only completed research, so contributions at all stages of development are welcome. Previously published works are welcome.
+              </p>
+              <p>
+                Talk proposals should consist of a title and a one-paragraph abstract. No need to submit a PDF.
+              </p>
+            </div>
+
+            <div class="call-form">
+              <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLScVnV9nI2N9BvgN-wT77mKXkzoMmQl5RL_J4ogImElWWaQ4mQ/viewform" target="_blank" rel="noopener">Submit your proposal →</a>
+            </div>
+          </section>
+
+          <section class="register" id="register">
+            <h2>Important dates</h2>
+
+            <div class="table-wrap">
+              <table class="dates-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Milestone</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Talk proposal deadline</td>
+                    <td class="date">18 January 2027</td>
+                  </tr>
+                  <tr>
+                    <td>Notification</td>
+                    <td class="date">22 January 2027</td>
+                  </tr>
+                  <tr>
+                    <td>Registration deadline</td>
+                    <td class="date tba">To be announced</td>
+                  </tr>
+                  <tr class="event">
+                    <td>C-PSD</td>
+                    <td class="date">29 January 2027</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="call-form">
+              <a class="btn primary" href="#">Register now →</a>
+            </div>
+          </section>
+        </div>
       </div>
-
-      <section class="about" id="about">
-        <h2>About</h2>
-        <div class="about-body">
-          <p>
-            C-PSD 2027 will be the first edition of C-PSD and will take place at DTU on the 29th of January 2027. The event will be a full day of scientific presentations and discussions.
-          </p>
-          <p>
-            In addition to sharing research results and ongoing work, participants will have the opportunity to discuss common research interests and explore potential joint activities, such as project proposal preparation, research activities, and scientific events.
-          </p>
-        </div>
-      </section>
-
-      <section class="program" id="program">
-        <div class="program-head">
-          <h2>Program</h2>
-          <span class="program-day">Day 1 · 29 Jan 2027</span>
-        </div>
-
-        <ol class="schedule">
-          <li class="item"><span class="time">8:45</span><span class="detail">Arrival, Coffee, Registration</span></li>
-          <li class="item"><span class="time">9:15</span><span class="detail">Welcome</span></li>
-          <li class="item topic"><span class="time">9:30</span><span class="detail">Topic 1</span></li>
-          <li class="item break"><span class="time">10:30</span><span class="detail">Coffee Break</span></li>
-          <li class="item topic"><span class="time">10:45</span><span class="detail">Topic 2</span></li>
-          <li class="item break"><span class="time">11:45</span><span class="detail">Coffee Break</span></li>
-          <li class="item topic"><span class="time">12:00</span><span class="detail">Topic 3</span></li>
-          <li class="item"><span class="time">13:00</span><span class="detail">Lunch</span></li>
-        </ol>
-      </section>
-
-      <section class="call" id="call-for-contributions">
-        <h2>Call for Talks</h2>
-
-        <div class="call-dates">
-          <div class="info-card">
-            <span class="info-label">Talk proposal deadline</span>
-            <span class="info-value">18 January 2027</span>
-          </div>
-          <div class="info-card">
-            <span class="info-label">Notification</span>
-            <span class="info-value">22 January 2027</span>
-          </div>
-        </div>
-
-        <div class="call-intro">
-          <p>
-            We invite the submission of abstracts for 20-minute talks on all topics related to process science, including but not limited to:
-          </p>
-          <ul class="topics">
-            <li>Recent research results</li>
-            <li>Work in progress and preliminary findings</li>
-            <li>Newly funded research projects</li>
-            <li>Research proposals seeking collaborators or partners</li>
-            <li>Open problems, emerging challenges, and promising research directions</li>
-          </ul>
-          <p>
-            We particularly encourage PhD students and early-career researchers to contribute, including presentations of work in progress and recently accepted papers. The goal is to foster discussion and collaboration rather than to present only completed research, so contributions at all stages of development are welcome. Previously published works are welcome.
-          </p>
-          <p>
-            Talk proposals should consist of a title and a one-paragraph abstract. No need to submit a PDF.
-          </p>
-        </div>
-
-        <div class="call-form">
-          <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLScVnV9nI2N9BvgN-wT77mKXkzoMmQl5RL_J4ogImElWWaQ4mQ/viewform" target="_blank" rel="noopener">Submit your proposal →</a>
-        </div>
-      </section>
-
-      <section class="register" id="register">
-        <h2>Important dates</h2>
-
-        <div class="table-wrap">
-          <table class="dates-table">
-            <thead>
-              <tr>
-                <th scope="col">Milestone</th>
-                <th scope="col">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Talk proposal deadline</td>
-                <td class="date">18 January 2027</td>
-              </tr>
-              <tr>
-                <td>Notification</td>
-                <td class="date">22 January 2027</td>
-              </tr>
-              <tr>
-                <td>Registration deadline</td>
-                <td class="date tba">To be announced</td>
-              </tr>
-              <tr class="event">
-                <td>C-PSD</td>
-                <td class="date">29 January 2027</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="call-form">
-          <a class="btn primary" href="#">Register now →</a>
-        </div>
-      </section>
     </main>
 
     <footer>
